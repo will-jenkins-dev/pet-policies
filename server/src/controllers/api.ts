@@ -2,18 +2,21 @@ import { Response, Request } from 'express'
 import { PolicyNew } from '../types/policy.type'
 import * as repo from './../data/repository'
 
-export const policies = (req: Request, res: Response) => {
+export const policies = (req: Request, res: Response): void => {
   const currentPolicies = repo.getPolicies()
-  return res.json({ policies: currentPolicies })
+  res.json({ policies: currentPolicies })
 }
 
-export const options = (req: Request, res: Response) => {
+export const options = (req: Request, res: Response): void => {
   const options = repo.getOptions()
-  return res.json(options)
+  res.json(options)
 }
 
-export const add = (req: Request, res: Response) => {
-  const policyNew = req.body as PolicyNew
+export const add = (
+  req: Request<unknown, unknown, PolicyNew>,
+  res: Response,
+): void => {
+  const policyNew = req.body
   repo.addPolicy(policyNew)
-  return res.send(200)
+  res.send(200)
 }
