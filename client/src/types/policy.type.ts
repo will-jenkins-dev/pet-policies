@@ -2,9 +2,10 @@
 export type PetType = {id:number, label:string}
 export type InsuranceStatus = {id:number, label:string}
 
-export type Pet = {
+export type Policy = {
+	id?:number
 	name: string
 	age: number
-	type: PetType
-	status: InsuranceStatus
+	petType: PetType
+	insuranceStatus: InsuranceStatus
 }

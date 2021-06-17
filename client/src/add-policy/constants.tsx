@@ -3,8 +3,8 @@ import type { FormFieldInput, FormFieldSelect } from './types'
 const FORM_IDS = {
   NAME: 'name',
   AGE: 'age',
-  PET_TYPE: 'petType',
-  INSURANCE_STATUS: 'insuranceStatus',
+  PET_TYPE: 'petTypeId',
+  INSURANCE_STATUS: 'insuranceStatusId',
 }
 const FORM_FIELDS: Record<string, FormFieldInput | FormFieldSelect> = {
   [FORM_IDS.NAME]: {

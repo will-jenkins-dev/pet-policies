@@ -1,4 +1,4 @@
-import { InsuranceStatus, PetType } from './../types/pet.type'
+import { InsuranceStatus, PetType } from '../types/policy.type'
 export type FormFieldInput = {
   as: string
   label: string

@@ -1,35 +1,38 @@
 import React, { useState, useEffect } from 'react'
 
-import { fetchPets } from './api/api'
+import * as api from './api/api'
 import './App.css'
-import type { Pet, PetType, InsuranceStatus } from './types/pet.type'
+import type { Policy } from './types/policy.type'
 
-import { AddPetForm } from './add-pet/FormAddPet'
-
-const petLabels: Array<string> = []
+import { AddPolicyForm } from './add-policy/FormAddPolicy'
 
 function App() {
-  const [pets, setPets] = useState<Array<Pet>>([])
-  useEffect(() => {
-    fetchPets().then(({ pets, insuranceStatuses, petTypes }) => {
-      setPets(pets)
+  const [policies, setPolicies] = useState<Array<Policy>>([])
+  const fetchPets = async () => {
+    api.getPolicies().then(({ policies }) => {
+      debugger
+      setPolicies(policies)
     })
+  }
+
+  useEffect(() => {
+    fetchPets()
   }, [])
   return (
     <div className="App">
       <h1>Pet Insurance Manager 5000</h1>
-      {Array.isArray(pets) && pets.length > 0 ? (
+      {Array.isArray(policies) && policies.length > 0 ? (
         <>
           <h2>Here are your pets</h2>
           <div>
             <table className="table-pets">
               <tbody>
-                {pets.map(({ name, age, type, status }) => (
-                  <tr>
+                {policies.map(({ id, name, age, petType, insuranceStatus }) => (
+                  <tr key={id}>
                     <td>{name}</td>
                     <td>{age}</td>
-                    <td>{type.label}</td>
-                    <td>{status.label}</td>
+                    <td>{petType.label}</td>
+                    <td>{insuranceStatus.label}</td>
                   </tr>
                 ))}
               </tbody>
@@ -39,7 +42,7 @@ function App() {
       ) : (
         <div>Sorry, you have no pets</div>
       )}
-      <AddPetForm />
+      <AddPolicyForm onAdd={fetchPets} />
     </div>
   )
 }

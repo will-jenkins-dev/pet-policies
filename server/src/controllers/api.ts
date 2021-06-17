@@ -1,25 +1,19 @@
-'use strict'
-import {
-  Pet,
-  PetType,
-  InsuranceStatus,
-  insuranceStatuses,
-  petTypes,
-} from './../types/pet.type'
-import { Response, Request, NextFunction, response } from 'express'
-
-const data: Array<Pet> = [
-  { name: 'poochy', age: 4, type: petTypes[0], status: insuranceStatuses[0] },
-]
+import { Response, Request } from 'express'
+import { PolicyNew } from '../types/policy.type'
+import * as repo from './../data/repository'
 
 export const policies = (req: Request, res: Response) => {
-  return res.json({ pets: data })
+  const currentPolicies = repo.getPolicies()
+  return res.json({ policies: currentPolicies })
 }
 
 export const options = (req: Request, res: Response) => {
-  return res.json({ petTypes, insuranceStatuses })
+  const options = repo.getOptions()
+  return res.json(options)
 }
 
 export const add = (req: Request, res: Response) => {
-  return res.json({ petTypes, insuranceStatuses })
+  const policyNew = req.body as PolicyNew
+  repo.addPolicy(policyNew)
+  return res.send(200)
 }

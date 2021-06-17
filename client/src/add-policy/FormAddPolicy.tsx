@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 
 import { FORM_FIELDS, FORM_IDS } from './constants'
 
-import { fetchOptions, addPolicy } from '../api/api'
+import * as api from '../api/api'
 
 import { Formik, Field, Form, FormikHelpers } from 'formik'
-import { InsuranceStatus, PetType } from './../types/pet.type'
+import { InsuranceStatus, PetType } from '../types/policy.type'
 
 const intialSelectOption = { id: -1, label: 'Please select...' }
 
@@ -16,9 +16,10 @@ const initialValues = Object.fromEntries(
 interface FormValues {
   name: string
   age: number
-  insuranceStatus: InsuranceStatus
-  petType: PetType
+  insuranceStatusId: number
+  petTypeId: number
 }
+
 const PetFormField = (props: any) => {
   const { id, options, ...rest } = props
   const { label, placeholder, as } = FORM_FIELDS[id]
@@ -26,7 +27,7 @@ const PetFormField = (props: any) => {
     ? {
         children: options.map(
           ({ id, label }: { id: string; label: string }) => (
-            <option id={id} value={id} label={label}>
+            <option key={id} id={id} value={id} label={label}>
               {label}
             </option>
           ),
@@ -47,13 +48,15 @@ const PetFormField = (props: any) => {
     </>
   )
 }
-
-const AddPetForm = () => {
+type AddPolicyFormProps = {
+  onAdd: () => void
+}
+const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
   const [statuses, setStatuses] = useState<Array<InsuranceStatus>>([])
   const [petTypes, setPetTypes] = useState<Array<PetType>>([])
-
+  const { onAdd } = props
   useEffect(() => {
-    fetchOptions().then(({ insuranceStatuses, petTypes }) => {
+    api.getOptions().then(({ insuranceStatuses, petTypes }) => {
       setStatuses([{ ...intialSelectOption }, ...insuranceStatuses])
       setPetTypes([{ ...intialSelectOption }, ...petTypes])
     })
@@ -66,7 +69,8 @@ const AddPetForm = () => {
     done: () => void
   }) => {
     debugger
-    await addPolicy(values)
+    await api.addPolicy(values)
+    onAdd && onAdd()
     done()
   }
   return (
@@ -98,4 +102,4 @@ const AddPetForm = () => {
   )
 }
 
-export { AddPetForm }
+export { AddPolicyForm }

@@ -1,6 +1,6 @@
 const API_ROOT = 'http://localhost:3001/api'
 
-const fetchPets = async () => {
+const getPolicies = async () => {
   const url = `${API_ROOT}/policies`
   const options = {
     method: 'GET',
@@ -15,7 +15,7 @@ const fetchPets = async () => {
   return data
 }
 
-const fetchOptions = async () => {
+const getOptions = async () => {
   const url = `${API_ROOT}/options`
   const options = {
     method: 'GET',
@@ -30,18 +30,18 @@ const fetchOptions = async () => {
 }
 
 const addPolicy = async (payload: any) => {
-  const url = `${API_ROOT}/add`
+  const url = `${API_ROOT}/policy-add`
   const options = {
     method: 'POST',
+
     headers: {
-      Accept: 'application/json',
+      RequestMode: 'no-cors',
       'Content-Type': 'application/json;charset=UTF-8',
     },
     body: JSON.stringify(payload),
   }
-
-  const data = await fetch(url, options).then(response => response.json())
+  const data = await fetch(url, options).then(response => {})
 
   return data
 }
-export { fetchPets, fetchOptions, addPolicy }
+export { getPolicies, getOptions, addPolicy }
