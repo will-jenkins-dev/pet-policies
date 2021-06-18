@@ -3,13 +3,15 @@ export type FormFieldInput = {
   as: string
   label: string
   placeholder?: string
-  initialValue: string | number | PetType | InsuranceStatus
+  initialValue: number | string
+  type?: string
+  validate?: (value: string) => string | null
 }
 
 export type FormFieldSelect = {
   as: string
   label: string
-  placeholder: never
   options: Array<InsuranceStatus | PetType>
-  initialValue: InsuranceStatus | PetType
+  initialValue: string | number
+  validate?: (value: number) => string | null
 }

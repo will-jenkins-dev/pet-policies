@@ -30,6 +30,7 @@ const getOptions = async () => {
 }
 
 const addPolicy = async (payload: any) => {
+  //todo: transform payload here
   const url = `${API_ROOT}/policy-add`
   const options = {
     method: 'POST',
