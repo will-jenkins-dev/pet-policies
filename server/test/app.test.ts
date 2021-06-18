@@ -1,4 +1,4 @@
-import '@types/jest'
+import 'jest'
 import request from 'supertest'
 import app from '../src/app'
 
