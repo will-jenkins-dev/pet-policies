@@ -1,6 +1,23 @@
 import { Response, Request } from 'express'
-import { PolicyNew } from '../types/policy.type'
+import Ajv, { JTDDataType } from 'ajv/dist/jtd'
+
 import * as repo from './../data/repository'
+
+import { PolicyNew } from '../types/policy.type'
+
+const ajv = new Ajv()
+
+const schema = {
+  properties: {
+    name: { type: 'string' },
+    age: { type: 'int32' },
+    petTypeId: { type: 'int32' },
+    insuranceStatusId: { type: 'int32' },
+  },
+} as const
+
+type NewPolicySchema = JTDDataType<typeof schema>
+const validate = ajv.compile<NewPolicySchema>(schema)
 
 export const policies = (req: Request, res: Response): void => {
   const currentPolicies = repo.getPolicies()
@@ -17,6 +34,10 @@ export const add = (
   res: Response,
 ): void => {
   const policyNew = req.body
-  repo.addPolicy(policyNew)
-  res.send(200)
+  if (validate(policyNew)) {
+    repo.addPolicy(policyNew)
+    res.send(200)
+  } else {
+    res.send(400)
+  }
 }

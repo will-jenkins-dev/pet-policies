@@ -46,6 +46,25 @@ type AddPolicyFormProps = {
   onAdd: () => void
 }
 
+type PolicyNew = {
+  name: string
+  age: number
+  petTypeId: number
+  insuranceStatusId: number
+}
+const formatPolicyFormValues = (values: FormValues): PolicyNew => {
+  const {
+    petTypeId: petTypeIdString,
+    insuranceStatusId: insuranceStatusIdString,
+    ...rest
+  } = values
+  return {
+    ...rest,
+    petTypeId: +petTypeIdString,
+    insuranceStatusId: +insuranceStatusIdString,
+  }
+}
+
 const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
   const [statuses, setStatuses] = useState<Array<InsuranceStatus>>([])
   const [petTypes, setPetTypes] = useState<Array<PetType>>([])
@@ -56,9 +75,10 @@ const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
       setPetTypes([{ ...intialSelectOption }, ...petTypes])
     })
   }, [])
-  const submitValues = async ({ values }: { values: FormValues }) =>
-    // const policy = formatPolicyFormValues(values)
-    await api.addPolicy(values)
+  const submitValues = async ({ values }: { values: FormValues }) => {
+    const policy: PolicyNew = formatPolicyFormValues(values)
+    return await api.addPolicy(policy)
+  }
 
   return (
     <div>

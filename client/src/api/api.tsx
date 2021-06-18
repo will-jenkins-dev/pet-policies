@@ -1,5 +1,6 @@
 const API_ROOT = 'http://localhost:3001/api'
 
+// todo: add return types here
 const getPolicies = async () => {
   const url = `${API_ROOT}/policies`
   const options = {
@@ -30,7 +31,6 @@ const getOptions = async () => {
 }
 
 const addPolicy = async (payload: any) => {
-  //todo: transform payload here
   const url = `${API_ROOT}/policy-add`
   const options = {
     method: 'POST',

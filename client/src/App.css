@@ -4,7 +4,12 @@
   flex-direction: column;
 }
 .table-pets {
+  border-collapse: collapse;
   display: inline-block;
+}
+.table-pets td {
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 @keyframes App-logo-spin {
   from {

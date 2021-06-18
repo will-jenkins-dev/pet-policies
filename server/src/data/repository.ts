@@ -45,7 +45,9 @@ const addPolicy = (policyNew: PolicyNew): void => {
 
   const indexes = Object.keys(policies).map(i => +i)
   const nextIndex: number = Math.max(...[0, ...indexes]) + 1
-
+  if (!petType || !insuranceStatus) {
+    throw Error('Invalid payload - unknown petType or insuranceStatus')
+  }
   const policyToAdd: Policy = {
     id: nextIndex,
     name,
