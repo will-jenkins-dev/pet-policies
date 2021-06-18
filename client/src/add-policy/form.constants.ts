@@ -1,14 +1,14 @@
-import { FormValues } from './FormValues'
-import type { FormFieldInput, FormFieldSelect } from './types'
+import { FormValues } from './types/FormValues'
+import { FormFieldSelect } from "./types/FormFieldSelect"
+import { FormFieldInput } from "./types/FormFieldInput"
+import { FormId } from './types/FormId'
 
-const FORM_IDS = ['name', 'age', 'petTypeId', 'insuranceStatusId'] as const
-
-export type FormId = typeof FORM_IDS[number]
+export const FORM_IDS = ['name', 'age', 'petTypeId', 'insuranceStatusId'] as const
 
 const FORM_FIELDS: Record<FormId, FormFieldInput | FormFieldSelect> = {
   name: {
     as: 'input',
-    label: `Your Pet's name`,
+    label: `Your Pet's name:`,
     placeholder: 'enter name here',
     initialValue: '',
     validate: (value: string) =>
@@ -16,7 +16,7 @@ const FORM_FIELDS: Record<FormId, FormFieldInput | FormFieldSelect> = {
   },
   age: {
     as: 'input',
-    label: `Your Pet's age`,
+    label: `Your Pet's age:`,
     placeholder: 'enter age here',
     initialValue: '',
     type: 'number',
@@ -25,7 +25,7 @@ const FORM_FIELDS: Record<FormId, FormFieldInput | FormFieldSelect> = {
   },
   petTypeId: {
     as: 'select',
-    label: `What type of Pet do you have`,
+    label: `Type of pet:`,
     initialValue: -1,
     validate: (value: number) =>
       !value || +value < 0 ? 'Please select a pet type' : null,
@@ -33,7 +33,7 @@ const FORM_FIELDS: Record<FormId, FormFieldInput | FormFieldSelect> = {
   },
   insuranceStatusId: {
     as: 'select',
-    label: `What type cover do you have`,
+    label: `Type of cover:`,
     initialValue: -1,
     validate: (value: number) =>
       !value || +value < 0 ? 'Please select an insurance status' : null,
@@ -45,4 +45,6 @@ const initialValues = Object.fromEntries(
   Object.entries(FORM_FIELDS).map(([k, field]) => [k, field.initialValue]),
 ) as unknown as FormValues
 
-export { FORM_IDS, FORM_FIELDS, initialValues }
+const intialSelectOption = { id: -1, label: 'Please select...' } as const
+
+export { FORM_FIELDS, initialValues, intialSelectOption }

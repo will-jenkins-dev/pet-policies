@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import * as api from './api/api'
 import './App.css'
-import type { Policy } from './types/policy.type'
+import type { Policy } from './common/types/Policy'
 
 import { AddPolicyForm } from './add-policy/FormAddPolicy'
 
@@ -10,7 +10,6 @@ function App() {
   const [policies, setPolicies] = useState<Array<Policy>>([])
   const fetchPets = async () => {
     api.getPolicies().then(({ policies }) => {
-      debugger
       setPolicies(policies)
     })
   }
@@ -52,7 +51,7 @@ function App() {
           </div>
         </>
       ) : (
-        <div>Sorry, you have no pets</div>
+        <div>You currently have no policies</div>
       )}
       <AddPolicyForm onAdd={fetchPets} />
     </div>

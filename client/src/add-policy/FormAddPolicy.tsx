@@ -1,47 +1,15 @@
 import { useState, useEffect } from 'react'
-
-import { FORM_FIELDS, FORM_IDS, FormId, initialValues } from './constants'
+import { Formik, Form, FormikProps } from 'formik'
 
 import * as api from '../api/api'
 
-import { Formik, Field, Form, FieldProps, FormikProps } from 'formik'
-import { InsuranceStatus, PetType } from '../types/policy.type'
-import { FormValues } from './FormValues'
+import { FormValues } from './types/FormValues'
+import { PetFormField } from './PolicyFormField'
+import { intialSelectOption, initialValues } from './form.constants'
+import { InsuranceStatus, PetType } from '../common/types/Policy'
 
-const intialSelectOption = { id: -1, label: 'Please select...' }
+import './FormAddPolicy.css'
 
-type PetFormFieldProps = {
-  id: FormId
-  options?: (PetType | InsuranceStatus)[]
-}
-
-const PetFormField: React.FC<PetFormFieldProps & FormikProps<FormValues>> =
-  props => {
-    const { id, options, errors, touched, ...restProps } = props
-    const { label, ...restFieldProps } = FORM_FIELDS[id]
-    const children = options
-      ? {
-          children: options.map(({ id, label }: PetType | InsuranceStatus) => (
-            <option key={id} value={id} label={label}>
-              {label}
-            </option>
-          )),
-        }
-      : undefined
-    return (
-      <>
-        <label htmlFor={id}>{label}</label>
-        <Field
-          id={id}
-          name={id}
-          {...restFieldProps}
-          {...restProps}
-          {...children}
-        />
-        {errors[id] && touched[id] ? <span>{errors[id]}</span> : null}
-      </>
-    )
-  }
 type AddPolicyFormProps = {
   onAdd: () => void
 }
@@ -81,13 +49,14 @@ const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
   }
 
   return (
-    <div>
-      <h2>Add a new Pet</h2>
+    <div className="policy-form-container">
+      <h2>Add a new Policy</h2>
       <Formik<FormValues>
         initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
           await submitValues({ values })
           setSubmitting(false)
+          resetForm()
           onAdd && onAdd()
         }}
       >
