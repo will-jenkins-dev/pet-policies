@@ -6,21 +6,6 @@
   "configurations": [
     {
       "type": "node",
-      "request": "attach",
-      "name": "Debug API: Attach to Docker",
-      "protocol": "auto",
-      "port": 5858,
-      "restart": true,
-      "localRoot": "${workspaceFolder}/server/",
-      "remoteRoot": "/app/",
-      "trace": true,
-      "skipFiles": ["<node_internals>/**/*.js"],
-      "sourceMapPathOverrides": {
-        "/app/*": "${workspaceFolder}/server/*"
-      }
-    },
-    {
-      "type": "node",
       "request": "launch",
       "name": "Debug server",
       "program": "${workspaceFolder}/server/src/server.ts",
