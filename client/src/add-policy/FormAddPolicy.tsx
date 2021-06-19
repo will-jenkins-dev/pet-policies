@@ -38,12 +38,16 @@ const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
   const [petTypes, setPetTypes] = useState<Array<PetType>>([])
   const { onAdd } = props
   useEffect(() => {
-    api.getOptions().then(({ insuranceStatuses, petTypes }) => {
+    api.getOptions().then(({ insuranceStatuses = [], petTypes = [] }) => {
       setStatuses([{ ...intialSelectOption }, ...insuranceStatuses])
       setPetTypes([{ ...intialSelectOption }, ...petTypes])
     })
   }, [])
-  const submitValues = async ({ values }: { values: FormValues }) => {
+  const submitValues = async ({
+    values,
+  }: {
+    values: FormValues
+  }): Promise<boolean> => {
     const policy: PolicyNew = formatPolicyFormValues(values)
     return await api.addPolicy(policy)
   }
@@ -54,10 +58,10 @@ const AddPolicyForm: React.FC<AddPolicyFormProps> = props => {
       <Formik<FormValues>
         initialValues={initialValues}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          await submitValues({ values })
+          const success = await submitValues({ values })
           setSubmitting(false)
-          resetForm()
           onAdd && onAdd()
+          success && resetForm()
         }}
       >
         {(formikProps: FormikProps<FormValues>) => (

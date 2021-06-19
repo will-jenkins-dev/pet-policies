@@ -9,7 +9,7 @@ import { AddPolicyForm } from './add-policy/FormAddPolicy'
 function App() {
   const [policies, setPolicies] = useState<Array<Policy>>([])
   const fetchPets = async () => {
-    api.getPolicies().then(({ policies }) => {
+    api.getPolicies().then(({ policies = [] }) => {
       setPolicies(policies)
     })
   }

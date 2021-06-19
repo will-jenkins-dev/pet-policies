@@ -36,7 +36,7 @@ export const add = (
   const policyNew = req.body
   if (validate(policyNew)) {
     repo.addPolicy(policyNew)
-    res.send(200)
+    res.sendStatus(200)
   } else {
     res.send(400)
   }
